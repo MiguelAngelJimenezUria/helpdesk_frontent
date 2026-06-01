@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createTicket } from '../api/tickets';
+import { validateSafeText } from '../utils/validation';
 
 const PRIORITY_OPTIONS = [
   { value: 'low', label: 'Baja' },
@@ -22,8 +23,17 @@ export default function TicketCreate() {
 
   const validate = () => {
     const errs = {};
-    if (!form.title.trim()) errs.title = 'El título es obligatorio.';
-    if (!form.description.trim()) errs.description = 'La descripción es obligatoria.';
+    if (!form.title.trim()) {
+      errs.title = 'El título es obligatorio.';
+    } else {
+      errs.title = validateSafeText(form.title, 'El título');
+    }
+    if (!form.description.trim()) {
+      errs.description = 'La descripción es obligatoria.';
+    } else {
+      errs.description = validateSafeText(form.description, 'La descripción');
+    }
+    Object.keys(errs).forEach((k) => { if (!errs[k]) delete errs[k]; });
     return errs;
   };
 

@@ -81,10 +81,12 @@ export default function TicketList() {
               : 'Todas las solicitudes de soporte'}
           </p>
         </div>
-        <Link to="/tickets/new" className="btn btn-primary btn-sm">
-          <i className="bi bi-plus me-1" />
-          {user?.role === 'client' ? 'Abrir Ticket' : 'Nuevo Ticket'}
-        </Link>
+        {user?.role !== 'supervisor' && (
+          <Link to="/tickets/new" className="btn btn-primary btn-sm">
+            <i className="bi bi-plus me-1" />
+            {user?.role === 'client' ? 'Abrir Ticket' : 'Nuevo Ticket'}
+          </Link>
+        )}
       </div>
 
       {/* Filters */}
@@ -178,7 +180,7 @@ export default function TicketList() {
                   <th>Título</th>
                   <th style={{ width: 120 }}>Estado</th>
                   <th style={{ width: 110 }}>Prioridad</th>
-                  {(user?.role === 'agent' || user?.role === 'admin') && (
+                  {(user?.role === 'agent' || user?.role === 'admin' || user?.role === 'supervisor') && (
                     <>
                       <th style={{ width: 140 }}>Solicitante</th>
                       <th style={{ width: 140 }}>Asignado a</th>
@@ -204,7 +206,7 @@ export default function TicketList() {
                     <td>
                       <PriorityBadge priority={t.priority} />
                     </td>
-                    {(user?.role === 'agent' || user?.role === 'admin') && (
+                    {(user?.role === 'agent' || user?.role === 'admin' || user?.role === 'supervisor') && (
                       <>
                         <td style={{ fontSize: 12, color: '#475569' }}>
                           {t.created_by?.username || '—'}

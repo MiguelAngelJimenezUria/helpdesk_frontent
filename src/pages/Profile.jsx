@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getMe, updateMe } from '../api/auth';
 import { useAuth } from '../context/AuthContext';
+import { validateName, validateEmail } from '../utils/validation';
 
 export default function Profile() {
   const { loadUser } = useAuth();
@@ -11,6 +12,7 @@ export default function Profile() {
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState({});
 
   useEffect(() => {
     getMe()
@@ -29,12 +31,27 @@ export default function Profile() {
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setFieldErrors((prev) => ({ ...prev, [e.target.name]: undefined }));
     setSuccess(false);
     setError('');
   };
 
+  const validate = () => {
+    const errs = {};
+    errs.first_name = validateName(form.first_name, 'El nombre');
+    errs.last_name = validateName(form.last_name, 'El apellido');
+    if (form.email) errs.email = validateEmail(form.email);
+    Object.keys(errs).forEach((k) => { if (!errs[k]) delete errs[k]; });
+    return errs;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const clientErrors = validate();
+    if (Object.keys(clientErrors).length) {
+      setFieldErrors(clientErrors);
+      return;
+    }
     setSaving(true);
     setSuccess(false);
     setError('');
@@ -107,10 +124,13 @@ export default function Profile() {
                       id="first_name"
                       name="first_name"
                       type="text"
-                      className="form-control"
+                      className={`form-control${fieldErrors.first_name ? ' is-invalid' : ''}`}
                       value={form.first_name}
                       onChange={handleChange}
                     />
+                    {fieldErrors.first_name && (
+                      <div className="invalid-feedback">{fieldErrors.first_name}</div>
+                    )}
                   </div>
                   <div className="col-6">
                     <label htmlFor="last_name" className="form-label">Apellido</label>
@@ -118,10 +138,13 @@ export default function Profile() {
                       id="last_name"
                       name="last_name"
                       type="text"
-                      className="form-control"
+                      className={`form-control${fieldErrors.last_name ? ' is-invalid' : ''}`}
                       value={form.last_name}
                       onChange={handleChange}
                     />
+                    {fieldErrors.last_name && (
+                      <div className="invalid-feedback">{fieldErrors.last_name}</div>
+                    )}
                   </div>
                 </div>
 
@@ -131,10 +154,13 @@ export default function Profile() {
                     id="email"
                     name="email"
                     type="email"
-                    className="form-control"
+                    className={`form-control${fieldErrors.email ? ' is-invalid' : ''}`}
                     value={form.email}
                     onChange={handleChange}
                   />
+                  {fieldErrors.email && (
+                    <div className="invalid-feedback">{fieldErrors.email}</div>
+                  )}
                 </div>
 
                 <button

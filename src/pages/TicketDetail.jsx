@@ -54,6 +54,9 @@ export default function TicketDetail() {
   const [commentError, setCommentError] = useState('');
 
   const isStaff = user?.role === 'agent' || user?.role === 'admin';
+  const isSupervisor = user?.role === 'supervisor';
+  const canViewAll = isStaff || isSupervisor;  // sees all data (internal notes, assignee, meta)
+  const canEdit = isStaff;                      // can modify ticket / post comments
 
   useEffect(() => {
     Promise.all([
@@ -251,6 +254,7 @@ export default function TicketDetail() {
 
               {/* Add comment form */}
               <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: 16, marginTop: 4 }}>
+                {canEdit ? (
                 <form onSubmit={handleCommentSubmit}>
                   {commentError && (
                     <div className="alert alert-danger py-2 mb-2">{commentError}</div>
@@ -297,6 +301,12 @@ export default function TicketDetail() {
                     </button>
                   </div>
                 </form>
+                ) : (
+                  <p style={{ fontSize: 12, color: '#94a3b8', margin: 0, textAlign: 'center' }}>
+                    <i className="bi bi-eye me-1" />
+                    Modo solo lectura &mdash; los supervisores no pueden agregar comentarios.
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -334,7 +344,7 @@ export default function TicketDetail() {
           </div>
 
           {/* Update panel (agents & admins only) */}
-          {isStaff && (
+          {canEdit && (
             <div className="card">
               <div className="card-header">Actualizar Ticket</div>
               <div className="card-body">

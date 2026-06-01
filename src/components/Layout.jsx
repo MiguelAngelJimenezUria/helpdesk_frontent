@@ -46,6 +46,7 @@ export default function Layout() {
   const isAdmin = user?.role === 'admin';
   const isAgent = user?.role === 'agent';
   const isClient = user?.role === 'client';
+  const isSupervisor = user?.role === 'supervisor';
 
   const closeSidebar = () => setSidebarOpen(false);
 
@@ -120,7 +121,7 @@ export default function Layout() {
               </NavLink>
             ))}
 
-          {isAdmin && (
+          {(isAdmin || isSupervisor) && (
             <>
               <div className="sidebar-section-label" style={{ marginTop: 8 }}>
                 Administración
@@ -163,8 +164,9 @@ export default function Layout() {
             <div className="sidebar-user-info">
               <div className="sidebar-user-name">{getDisplayName(user)}</div>
               <div className="sidebar-user-role">
-                {user?.role === 'admin' ? 'Administrador' :
-                 user?.role === 'agent' ? 'Agente' : 'Cliente'}
+                {user?.role === 'admin'      ? 'Administrador' :
+                 user?.role === 'agent'      ? 'Agente' :
+                 user?.role === 'supervisor' ? 'Supervisor' : 'Cliente'}
               </div>
             </div>
             <button

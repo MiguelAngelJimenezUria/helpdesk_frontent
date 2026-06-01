@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../api/auth';
+import { validateName, validateUsername, validateEmail } from '../utils/validation';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -23,10 +24,22 @@ export default function Register() {
 
   const validate = () => {
     const errs = {};
+
+    // Presence
     if (!form.username) errs.username = 'El usuario es obligatorio.';
     if (!form.password) errs.password = 'La contraseña es obligatoria.';
     if (form.password !== form.password_confirm)
       errs.password_confirm = 'Las contraseñas no coinciden.';
+
+    // Format
+    if (!errs.username) errs.username = validateUsername(form.username);
+    errs.first_name = validateName(form.first_name, 'El nombre');
+    errs.last_name = validateName(form.last_name, 'El apellido');
+    if (form.email) errs.email = validateEmail(form.email);
+
+    // Remove undefined entries
+    Object.keys(errs).forEach((k) => { if (!errs[k]) delete errs[k]; });
+
     return errs;
   };
 
@@ -85,11 +98,14 @@ export default function Register() {
                 id="first_name"
                 name="first_name"
                 type="text"
-                className="form-control"
+                className={`form-control${errors.first_name ? ' is-invalid' : ''}`}
                 placeholder="Juan"
                 value={form.first_name}
                 onChange={handleChange}
               />
+              {errors.first_name && (
+                <div className="invalid-feedback">{errors.first_name}</div>
+              )}
             </div>
             <div className="col-6">
               <label htmlFor="last_name" className="form-label">Apellido</label>
@@ -97,11 +113,14 @@ export default function Register() {
                 id="last_name"
                 name="last_name"
                 type="text"
-                className="form-control"
+                className={`form-control${errors.last_name ? ' is-invalid' : ''}`}
                 placeholder="Pérez"
                 value={form.last_name}
                 onChange={handleChange}
               />
+              {errors.last_name && (
+                <div className="invalid-feedback">{errors.last_name}</div>
+              )}
             </div>
           </div>
 

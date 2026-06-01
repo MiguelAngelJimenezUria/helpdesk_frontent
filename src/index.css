@@ -223,9 +223,10 @@ body {
 .badge-priority-high     { background-color: #ffedd5; color: #c2410c; }
 .badge-priority-critical { background-color: #fee2e2; color: #991b1b; }
 
-.badge-role-admin  { background-color: #ede9fe; color: #5b21b6; }
-.badge-role-agent  { background-color: #dbeafe; color: #1e40af; }
-.badge-role-client { background-color: #f1f5f9; color: #475569; }
+.badge-role-admin      { background-color: #ede9fe; color: #5b21b6; }
+.badge-role-agent      { background-color: #dbeafe; color: #1e40af; }
+.badge-role-client     { background-color: #f1f5f9; color: #475569; }
+.badge-role-supervisor { background-color: #fef3c7; color: #92400e; }
 
 /* ───── Auth pages ───── */
 .auth-page { min-height: 100vh; background-color: #f1f5f9; display: flex; align-items: center; justify-content: center; padding: 24px; }

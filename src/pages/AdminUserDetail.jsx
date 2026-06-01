@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { getUser, updateUser } from '../api/users';
 import { useAuth } from '../context/AuthContext';
 import RoleBadge from '../components/RoleBadge';
+import { validateName, validateEmail } from '../utils/validation';
 
 export default function AdminUserDetail() {
   const { id } = useParams();
@@ -20,8 +21,9 @@ export default function AdminUserDetail() {
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState({});
 
-  if (me && me.role !== 'admin') {
+  if (me && me.role !== 'admin' && me.role !== 'supervisor') {
     return (
       <div className="alert alert-danger">
         No tienes permisos para acceder a esta sección.
@@ -51,12 +53,27 @@ export default function AdminUserDetail() {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
+    setFieldErrors((prev) => ({ ...prev, [name]: undefined }));
     setSuccess(false);
     setError('');
   };
 
+  const validate = () => {
+    const errs = {};
+    errs.first_name = validateName(form.first_name, 'El nombre');
+    errs.last_name = validateName(form.last_name, 'El apellido');
+    if (form.email) errs.email = validateEmail(form.email);
+    Object.keys(errs).forEach((k) => { if (!errs[k]) delete errs[k]; });
+    return errs;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const clientErrors = validate();
+    if (Object.keys(clientErrors).length) {
+      setFieldErrors(clientErrors);
+      return;
+    }
     setSaving(true);
     setSuccess(false);
     setError('');
@@ -123,7 +140,9 @@ export default function AdminUserDetail() {
       <div className="row g-3">
         <div className="col-lg-6">
           <div className="card">
-            <div className="card-header">Editar usuario</div>
+            <div className="card-header">
+              {me?.role === 'supervisor' ? 'Ver usuario' : 'Editar usuario'}
+            </div>
             <div className="card-body">
               {success && (
                 <div className="alert alert-success py-2 mb-3" style={{ fontSize: 13 }}>
@@ -145,10 +164,14 @@ export default function AdminUserDetail() {
                       id="first_name"
                       name="first_name"
                       type="text"
-                      className="form-control"
+                      className={`form-control${fieldErrors.first_name ? ' is-invalid' : ''}`}
                       value={form.first_name}
                       onChange={handleChange}
+                      disabled={me?.role === 'supervisor'}
                     />
+                    {fieldErrors.first_name && (
+                      <div className="invalid-feedback">{fieldErrors.first_name}</div>
+                    )}
                   </div>
                   <div className="col-6">
                     <label htmlFor="last_name" className="form-label">Apellido</label>
@@ -156,10 +179,14 @@ export default function AdminUserDetail() {
                       id="last_name"
                       name="last_name"
                       type="text"
-                      className="form-control"
+                      className={`form-control${fieldErrors.last_name ? ' is-invalid' : ''}`}
                       value={form.last_name}
                       onChange={handleChange}
+                      disabled={me?.role === 'supervisor'}
                     />
+                    {fieldErrors.last_name && (
+                      <div className="invalid-feedback">{fieldErrors.last_name}</div>
+                    )}
                   </div>
                 </div>
 
@@ -169,10 +196,14 @@ export default function AdminUserDetail() {
                     id="email"
                     name="email"
                     type="email"
-                    className="form-control"
+                    className={`form-control${fieldErrors.email ? ' is-invalid' : ''}`}
                     value={form.email}
                     onChange={handleChange}
+                    disabled={me?.role === 'supervisor'}
                   />
+                  {fieldErrors.email && (
+                    <div className="invalid-feedback">{fieldErrors.email}</div>
+                  )}
                 </div>
 
                 <div className="mb-3">
@@ -183,9 +214,11 @@ export default function AdminUserDetail() {
                     className="form-select"
                     value={form.role}
                     onChange={handleChange}
+                    disabled={me?.role === 'supervisor'}
                   >
                     <option value="client">Cliente</option>
                     <option value="agent">Agente</option>
+                    <option value="supervisor">Supervisor</option>
                     <option value="admin">Admin</option>
                   </select>
                 </div>
@@ -199,6 +232,7 @@ export default function AdminUserDetail() {
                       name="is_active"
                       checked={form.is_active}
                       onChange={handleChange}
+                      disabled={me?.role === 'supervisor'}
                     />
                     <label className="form-check-label" htmlFor="is_active">
                       Cuenta activa
@@ -209,6 +243,7 @@ export default function AdminUserDetail() {
                   </div>
                 </div>
 
+                {me?.role !== 'supervisor' && (
                 <button
                   type="submit"
                   className="btn btn-primary"
@@ -221,6 +256,7 @@ export default function AdminUserDetail() {
                   )}
                   Guardar cambios
                 </button>
+                )}
               </form>
             </div>
           </div>

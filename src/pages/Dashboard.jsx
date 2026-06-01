@@ -158,7 +158,7 @@ export default function Dashboard() {
                       <th>Estado</th>
                       <th>Prioridad</th>
                       <th>Creado</th>
-                      {(user?.role === 'agent' || user?.role === 'admin') && (
+                      {(user?.role === 'agent' || user?.role === 'admin' || user?.role === 'supervisor') && (
                         <th>Solicitante</th>
                       )}
                     </tr>
@@ -183,7 +183,7 @@ export default function Dashboard() {
                         <td style={{ color: '#64748b', fontSize: 12 }}>
                           {formatDate(t.created_at)}
                         </td>
-                        {(user?.role === 'agent' || user?.role === 'admin') && (
+                        {(user?.role === 'agent' || user?.role === 'admin' || user?.role === 'supervisor') && (
                           <td style={{ color: '#64748b', fontSize: 12 }}>
                             {t.created_by?.username || '—'}
                           </td>

@@ -16,6 +16,7 @@ function formatDate(dt) {
 const ROLE_OPTIONS = [
   { value: '', label: 'Todos los roles' },
   { value: 'admin', label: 'Admin' },
+  { value: 'supervisor', label: 'Supervisor' },
   { value: 'agent', label: 'Agente' },
   { value: 'client', label: 'Cliente' },
 ];
@@ -27,8 +28,8 @@ export default function AdminUsers() {
   const [error, setError] = useState('');
   const [roleFilter, setRoleFilter] = useState('');
 
-  // Redirect if not admin
-  if (me && me.role !== 'admin') {
+  // Redirect if not admin or supervisor
+  if (me && me.role !== 'admin' && me.role !== 'supervisor') {
     return (
       <div className="alert alert-danger">
         No tienes permisos para acceder a esta sección.
@@ -167,7 +168,7 @@ export default function AdminUsers() {
                           fontSize: 12,
                         }}
                       >
-                        Editar
+                        {me?.role === 'supervisor' ? 'Ver' : 'Editar'}
                       </Link>
                     </td>
                   </tr>
