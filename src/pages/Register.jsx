@@ -26,15 +26,15 @@ export default function Register() {
     const errs = {};
 
     // Presence
-    if (!form.username) errs.username = 'El usuario es obligatorio.';
-    if (!form.password) errs.password = 'La contraseña es obligatoria.';
+    if (!form.username) errs.username = 'Username is required.';
+    if (!form.password) errs.password = 'Password is required.';
     if (form.password !== form.password_confirm)
-      errs.password_confirm = 'Las contraseñas no coinciden.';
+      errs.password_confirm = 'Passwords do not match.';
 
     // Format
     if (!errs.username) errs.username = validateUsername(form.username);
-    errs.first_name = validateName(form.first_name, 'El nombre');
-    errs.last_name = validateName(form.last_name, 'El apellido');
+    errs.first_name = validateName(form.first_name, 'First name');
+    errs.last_name = validateName(form.last_name, 'Last name');
     if (form.email) errs.email = validateEmail(form.email);
 
     // Remove undefined entries
@@ -61,7 +61,7 @@ export default function Register() {
         errs[key] = Array.isArray(val) ? val[0] : val;
       });
       if (!Object.keys(errs).length) {
-        errs.general = 'Ocurrió un error. Intenta de nuevo.';
+        errs.general = 'An error occurred. Please try again.';
       }
       setErrors(errs);
     } finally {
@@ -80,8 +80,8 @@ export default function Register() {
           <span className="auth-logo-text">HelpDesk</span>
         </div>
 
-        <h1 className="auth-title">Crear cuenta</h1>
-        <p className="auth-subtitle">Regístrate para acceder al portal de soporte</p>
+        <h1 className="auth-title">Create account</h1>
+        <p className="auth-subtitle">Sign up to access the support portal</p>
 
         {errors.general && (
           <div className="alert alert-danger" role="alert">
@@ -93,13 +93,13 @@ export default function Register() {
         <form onSubmit={handleSubmit} noValidate>
           <div className="row g-3 mb-3">
             <div className="col-6">
-              <label htmlFor="first_name" className="form-label">Nombre</label>
+              <label htmlFor="first_name" className="form-label">First name</label>
               <input
                 id="first_name"
                 name="first_name"
                 type="text"
                 className={`form-control${errors.first_name ? ' is-invalid' : ''}`}
-                placeholder="Juan"
+                placeholder="John"
                 value={form.first_name}
                 onChange={handleChange}
               />
@@ -108,13 +108,13 @@ export default function Register() {
               )}
             </div>
             <div className="col-6">
-              <label htmlFor="last_name" className="form-label">Apellido</label>
+              <label htmlFor="last_name" className="form-label">Last name</label>
               <input
                 id="last_name"
                 name="last_name"
                 type="text"
                 className={`form-control${errors.last_name ? ' is-invalid' : ''}`}
-                placeholder="Pérez"
+                placeholder="Doe"
                 value={form.last_name}
                 onChange={handleChange}
               />
@@ -126,14 +126,14 @@ export default function Register() {
 
           <div className="mb-3">
             <label htmlFor="username" className="form-label">
-              Usuario <span style={{ color: '#dc2626' }}>*</span>
+              Username <span style={{ color: '#dc2626' }}>*</span>
             </label>
             <input
               id="username"
               name="username"
               type="text"
               className={`form-control${errors.username ? ' is-invalid' : ''}`}
-              placeholder="nombre.usuario"
+              placeholder="username"
               value={form.username}
               onChange={handleChange}
               autoComplete="username"
@@ -144,13 +144,13 @@ export default function Register() {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">Correo electrónico</label>
+            <label htmlFor="email" className="form-label">Email</label>
             <input
               id="email"
               name="email"
               type="email"
               className={`form-control${errors.email ? ' is-invalid' : ''}`}
-              placeholder="correo@empresa.com"
+              placeholder="name@company.com"
               value={form.email}
               onChange={handleChange}
               autoComplete="email"
@@ -162,14 +162,14 @@ export default function Register() {
 
           <div className="mb-3">
             <label htmlFor="password" className="form-label">
-              Contraseña <span style={{ color: '#dc2626' }}>*</span>
+              Password <span style={{ color: '#dc2626' }}>*</span>
             </label>
             <input
               id="password"
               name="password"
               type="password"
               className={`form-control${errors.password ? ' is-invalid' : ''}`}
-              placeholder="Mínimo 8 caracteres"
+              placeholder="Minimum 8 characters"
               value={form.password}
               onChange={handleChange}
               autoComplete="new-password"
@@ -181,14 +181,14 @@ export default function Register() {
 
           <div className="mb-4">
             <label htmlFor="password_confirm" className="form-label">
-              Confirmar contraseña <span style={{ color: '#dc2626' }}>*</span>
+              Confirm password <span style={{ color: '#dc2626' }}>*</span>
             </label>
             <input
               id="password_confirm"
               name="password_confirm"
               type="password"
               className={`form-control${errors.password_confirm ? ' is-invalid' : ''}`}
-              placeholder="Repite la contraseña"
+              placeholder="Repeat password"
               value={form.password_confirm}
               onChange={handleChange}
               autoComplete="new-password"
@@ -210,10 +210,10 @@ export default function Register() {
                   role="status"
                   aria-hidden="true"
                 />
-                Creando cuenta...
+                Creating account...
               </>
             ) : (
-              'Crear cuenta'
+              'Create account'
             )}
           </button>
         </form>
@@ -221,9 +221,9 @@ export default function Register() {
         <div className="section-divider" />
 
         <p className="text-center" style={{ fontSize: 13, color: '#64748b', marginBottom: 0 }}>
-          ¿Ya tienes cuenta?{' '}
+          Already have an account?{' '}
           <Link to="/login" style={{ fontWeight: 500 }}>
-            Iniciar sesión
+            Sign in
           </Link>
         </p>
       </div>

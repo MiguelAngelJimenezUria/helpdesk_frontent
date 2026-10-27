@@ -9,9 +9,9 @@ export default function NotFound() {
     <div className="not-found-page">
       <div>
         <div className="not-found-code">404</div>
-        <h1 className="not-found-title">Página no encontrada</h1>
+        <h1 className="not-found-title">Page not found</h1>
         <p className="not-found-desc">
-          La página que buscas no existe o fue movida.
+          The page you are looking for does not exist or has been moved.
         </p>
         <div className="d-flex gap-3 justify-content-center">
           <button
@@ -19,17 +19,17 @@ export default function NotFound() {
             onClick={() => navigate(-1)}
           >
             <i className="bi bi-arrow-left me-2" />
-            Volver
+            Go back
           </button>
           {user ? (
             <Link to="/dashboard" className="btn btn-primary">
               <i className="bi bi-grid-1x2 me-2" />
-              Ir al inicio
+              Go to home
             </Link>
           ) : (
             <Link to="/login" className="btn btn-primary">
               <i className="bi bi-box-arrow-in-right me-2" />
-              Iniciar sesión
+              Sign in
             </Link>
           )}
         </div>

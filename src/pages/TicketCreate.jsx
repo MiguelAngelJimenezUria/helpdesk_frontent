@@ -4,10 +4,10 @@ import { createTicket } from '../api/tickets';
 import { validateSafeText } from '../utils/validation';
 
 const PRIORITY_OPTIONS = [
-  { value: 'low', label: 'Baja' },
-  { value: 'medium', label: 'Media' },
-  { value: 'high', label: 'Alta' },
-  { value: 'critical', label: 'Crítica' },
+  { value: 'low', label: 'Low' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'high', label: 'High' },
+  { value: 'critical', label: 'Critical' },
 ];
 
 export default function TicketCreate() {
@@ -24,14 +24,14 @@ export default function TicketCreate() {
   const validate = () => {
     const errs = {};
     if (!form.title.trim()) {
-      errs.title = 'El título es obligatorio.';
+      errs.title = 'Title is required.';
     } else {
-      errs.title = validateSafeText(form.title, 'El título');
+      errs.title = validateSafeText(form.title, 'Title');
     }
     if (!form.description.trim()) {
-      errs.description = 'La descripción es obligatoria.';
+      errs.description = 'Description is required.';
     } else {
-      errs.description = validateSafeText(form.description, 'La descripción');
+      errs.description = validateSafeText(form.description, 'Description');
     }
     Object.keys(errs).forEach((k) => { if (!errs[k]) delete errs[k]; });
     return errs;
@@ -54,7 +54,7 @@ export default function TicketCreate() {
       Object.entries(data).forEach(([k, v]) => {
         errs[k] = Array.isArray(v) ? v[0] : v;
       });
-      if (!Object.keys(errs).length) errs.general = 'Error al crear el ticket.';
+      if (!Object.keys(errs).length) errs.general = 'Error creating the ticket.';
       setErrors(errs);
     } finally {
       setLoading(false);
@@ -75,11 +75,11 @@ export default function TicketCreate() {
           }}
         >
           <i className="bi bi-arrow-left me-1" />
-          Volver
+          Back
         </Link>
         <div>
           <h2 className="mb-0" style={{ fontSize: 20, fontWeight: 700 }}>
-            Nuevo Ticket
+            New Ticket
           </h2>
         </div>
       </div>
@@ -87,7 +87,7 @@ export default function TicketCreate() {
       <div className="row justify-content-center">
         <div className="col-lg-7">
           <div className="card">
-            <div className="card-header">Información del ticket</div>
+            <div className="card-header">Ticket information</div>
             <div className="card-body">
               {errors.general && (
                 <div className="alert alert-danger">
@@ -99,14 +99,14 @@ export default function TicketCreate() {
               <form onSubmit={handleSubmit} noValidate>
                 <div className="mb-3">
                   <label htmlFor="title" className="form-label">
-                    Título <span style={{ color: '#dc2626' }}>*</span>
+                    Title <span style={{ color: '#dc2626' }}>*</span>
                   </label>
                   <input
                     id="title"
                     name="title"
                     type="text"
                     className={`form-control${errors.title ? ' is-invalid' : ''}`}
-                    placeholder="Describe brevemente el problema"
+                    placeholder="Briefly describe the issue"
                     value={form.title}
                     onChange={handleChange}
                     maxLength={200}
@@ -119,7 +119,7 @@ export default function TicketCreate() {
 
                 <div className="mb-3">
                   <label htmlFor="priority" className="form-label">
-                    Prioridad
+                    Priority
                   </label>
                   <select
                     id="priority"
@@ -138,13 +138,13 @@ export default function TicketCreate() {
 
                 <div className="mb-4">
                   <label htmlFor="description" className="form-label">
-                    Descripción <span style={{ color: '#dc2626' }}>*</span>
+                    Description <span style={{ color: '#dc2626' }}>*</span>
                   </label>
                   <textarea
                     id="description"
                     name="description"
                     className={`form-control${errors.description ? ' is-invalid' : ''}`}
-                    placeholder="Describe el problema con el mayor detalle posible…"
+                    placeholder="Describe the problem in as much detail as possible…"
                     value={form.description}
                     onChange={handleChange}
                     rows={6}
@@ -167,17 +167,17 @@ export default function TicketCreate() {
                           role="status"
                           aria-hidden="true"
                         />
-                        Enviando…
+                        Sending…
                       </>
                     ) : (
                       <>
                         <i className="bi bi-send me-2" />
-                        Enviar Ticket
+                        Submit Ticket
                       </>
                     )}
                   </button>
                   <Link to="/tickets" className="btn btn-outline-secondary">
-                    Cancelar
+                    Cancel
                   </Link>
                 </div>
               </form>

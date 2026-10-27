@@ -6,7 +6,7 @@ import RoleBadge from '../components/RoleBadge';
 
 function formatDate(dt) {
   if (!dt) return '—';
-  return new Date(dt).toLocaleDateString('es-ES', {
+  return new Date(dt).toLocaleDateString('en-US', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
@@ -14,11 +14,11 @@ function formatDate(dt) {
 }
 
 const ROLE_OPTIONS = [
-  { value: '', label: 'Todos los roles' },
+  { value: '', label: 'All roles' },
   { value: 'admin', label: 'Admin' },
   { value: 'supervisor', label: 'Supervisor' },
-  { value: 'agent', label: 'Agente' },
-  { value: 'client', label: 'Cliente' },
+  { value: 'agent', label: 'Agent' },
+  { value: 'client', label: 'Client' },
 ];
 
 export default function AdminUsers() {
@@ -32,7 +32,7 @@ export default function AdminUsers() {
   if (me && me.role !== 'admin' && me.role !== 'supervisor') {
     return (
       <div className="alert alert-danger">
-        No tienes permisos para acceder a esta sección.
+        You don't have permission to enter this section.
       </div>
     );
   }
@@ -43,7 +43,7 @@ export default function AdminUsers() {
     const params = role ? { role } : {};
     getUsers(params)
       .then(({ data }) => setUsers(data))
-      .catch(() => setError('No se pudieron cargar los usuarios.'))
+      .catch(() => setError('Users could not be loaded.'))
       .finally(() => setLoading(false));
   };
 
@@ -56,10 +56,10 @@ export default function AdminUsers() {
       <div className="d-flex align-items-center justify-content-between mb-4">
         <div>
           <h2 className="mb-0" style={{ fontSize: 20, fontWeight: 700 }}>
-            Usuarios
+            Users
           </h2>
           <p className="mb-0" style={{ color: '#64748b', fontSize: 13, marginTop: 2 }}>
-            Gestión de cuentas de usuario
+            User account management
           </p>
         </div>
       </div>
@@ -69,7 +69,7 @@ export default function AdminUsers() {
         <div className="card-body">
           <div className="row g-2 align-items-end">
             <div className="col-sm-auto">
-              <label className="form-label mb-1" style={{ fontSize: 11 }}>ROL</label>
+              <label className="form-label mb-1" style={{ fontSize: 11 }}>ROLE</label>
               <select
                 className="form-select form-select-sm"
                 value={roleFilter}
@@ -103,8 +103,8 @@ export default function AdminUsers() {
               <div className="empty-state-icon">
                 <i className="bi bi-people" />
               </div>
-              <div className="empty-state-title">Sin usuarios</div>
-              <div className="empty-state-desc">No hay usuarios con este filtro.</div>
+              <div className="empty-state-title">No users</div>
+                  <div className="empty-state-desc">There are no users with this filter.</div>
             </div>
           </div>
         ) : (
@@ -113,12 +113,12 @@ export default function AdminUsers() {
               <thead>
                 <tr>
                   <th style={{ width: 50 }}>ID</th>
-                  <th>Usuario</th>
-                  <th>Nombre</th>
-                  <th>Correo</th>
-                  <th style={{ width: 100 }}>Rol</th>
-                  <th style={{ width: 90 }}>Estado</th>
-                  <th style={{ width: 110 }}>Registro</th>
+                  <th>Username</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th style={{ width: 100 }}>Role</th>
+                  <th style={{ width: 90 }}>Status</th>
+                  <th style={{ width: 110 }}>Registration</th>
                   <th style={{ width: 70 }}></th>
                 </tr>
               </thead>
@@ -151,7 +151,7 @@ export default function AdminUsers() {
                         <span
                           className={`active-dot ${u.is_active ? 'active' : 'inactive'}`}
                         />
-                        {u.is_active ? 'Activo' : 'Inactivo'}
+                        {u.is_active ? 'Active' : 'Inactive'}
                       </span>
                     </td>
                     <td style={{ fontSize: 12, color: '#64748b' }}>
@@ -168,7 +168,7 @@ export default function AdminUsers() {
                           fontSize: 12,
                         }}
                       >
-                        {me?.role === 'supervisor' ? 'Ver' : 'Editar'}
+                        {me?.role === 'supervisor' ? 'View' : 'Edit'}
                       </Link>
                     </td>
                   </tr>
@@ -181,7 +181,7 @@ export default function AdminUsers() {
 
       {!loading && users.length > 0 && (
         <p style={{ fontSize: 12, color: '#94a3b8', marginTop: 8, textAlign: 'right' }}>
-          {users.length} usuario{users.length !== 1 ? 's' : ''}
+          {users.length} user{users.length !== 1 ? 's' : ''}
         </p>
       )}
     </>

@@ -23,7 +23,7 @@ function StatCard({ value, label, iconClass, color }) {
 
 function formatDate(dt) {
   if (!dt) return '—';
-  return new Date(dt).toLocaleDateString('es-ES', {
+  return new Date(dt).toLocaleDateString('en-US', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
@@ -60,22 +60,22 @@ export default function Dashboard() {
       <div className="d-flex align-items-center justify-content-between mb-4">
         <div>
           <h2 className="mb-0" style={{ fontSize: 20, fontWeight: 700 }}>
-            Bienvenido, {displayName}
+            Welcome, {displayName}
           </h2>
           <p className="mb-0" style={{ color: '#64748b', fontSize: 13, marginTop: 2 }}>
-            Resumen de actividad del sistema de soporte
+            Support system activity summary
           </p>
         </div>
         {user?.role !== 'client' ? null : (
           <Link to="/tickets/new" className="btn btn-primary btn-sm">
             <i className="bi bi-plus me-1" />
-            Abrir Ticket
+            Open Ticket
           </Link>
         )}
         {(user?.role === 'agent' || user?.role === 'admin') && (
           <Link to="/tickets/new" className="btn btn-primary btn-sm">
             <i className="bi bi-plus me-1" />
-            Nuevo Ticket
+            New Ticket
           </Link>
         )}
       </div>
@@ -84,7 +84,7 @@ export default function Dashboard() {
       {loading ? (
         <div className="page-loader">
           <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Cargando...</span>
+          <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       ) : (
@@ -101,7 +101,7 @@ export default function Dashboard() {
             <div className="col-6 col-lg-3">
               <StatCard
                 value={stats.open}
-                label="Abiertos"
+                label="Open"
                 iconClass="bi-folder2-open"
                 color="#2563eb"
               />
@@ -109,7 +109,7 @@ export default function Dashboard() {
             <div className="col-6 col-lg-3">
               <StatCard
                 value={stats.in_progress}
-                label="En Progreso"
+                label="In Progress"
                 iconClass="bi-arrow-repeat"
                 color="#d97706"
               />
@@ -117,7 +117,7 @@ export default function Dashboard() {
             <div className="col-6 col-lg-3">
               <StatCard
                 value={stats.resolved}
-                label="Resueltos"
+                label="Resolved"
                 iconClass="bi-check-circle"
                 color="#16a34a"
               />
@@ -127,12 +127,12 @@ export default function Dashboard() {
           {/* Recent tickets */}
           <div className="card">
             <div className="card-header d-flex align-items-center justify-content-between">
-              <span>Tickets Recientes</span>
+              <span>Recent tickets</span>
               <Link
                 to="/tickets"
                 style={{ fontSize: 12, fontWeight: 500, color: '#2563eb' }}
               >
-                Ver todos <i className="bi bi-arrow-right ms-1" />
+                View all <i className="bi bi-arrow-right ms-1" />
               </Link>
             </div>
 
@@ -142,9 +142,9 @@ export default function Dashboard() {
                   <div className="empty-state-icon">
                     <i className="bi bi-inbox" />
                   </div>
-                  <div className="empty-state-title">Sin tickets</div>
+                  <div className="empty-state-title">No tickets</div>
                   <div className="empty-state-desc">
-                    No hay tickets registrados todavía.
+                    There are no tickets registered yet.
                   </div>
                 </div>
               </div>
@@ -154,12 +154,12 @@ export default function Dashboard() {
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Título</th>
-                      <th>Estado</th>
-                      <th>Prioridad</th>
-                      <th>Creado</th>
+                      <th>Title</th>
+                      <th>Status</th>
+                      <th>Priority</th>
+                      <th>Created</th>
                       {(user?.role === 'agent' || user?.role === 'admin' || user?.role === 'supervisor') && (
-                        <th>Solicitante</th>
+                        <th>Requester</th>
                       )}
                     </tr>
                   </thead>

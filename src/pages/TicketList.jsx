@@ -7,7 +7,7 @@ import PriorityBadge from '../components/PriorityBadge';
 
 function formatDate(dt) {
   if (!dt) return '—';
-  return new Date(dt).toLocaleDateString('es-ES', {
+  return new Date(dt).toLocaleDateString('en-US', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
@@ -15,19 +15,19 @@ function formatDate(dt) {
 }
 
 const STATUS_OPTIONS = [
-  { value: '', label: 'Todos los estados' },
-  { value: 'open', label: 'Abierto' },
-  { value: 'in_progress', label: 'En Progreso' },
-  { value: 'resolved', label: 'Resuelto' },
-  { value: 'closed', label: 'Cerrado' },
+  { value: '', label: 'All statuses' },
+  { value: 'open', label: 'Open' },
+  { value: 'in_progress', label: 'In Progress' },
+  { value: 'resolved', label: 'Resolved' },
+  { value: 'closed', label: 'Closed' },
 ];
 
 const PRIORITY_OPTIONS = [
-  { value: '', label: 'Todas las prioridades' },
-  { value: 'low', label: 'Baja' },
-  { value: 'medium', label: 'Media' },
-  { value: 'high', label: 'Alta' },
-  { value: 'critical', label: 'Crítica' },
+  { value: '', label: 'All priorities' },
+  { value: 'low', label: 'Low' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'high', label: 'High' },
+  { value: 'critical', label: 'Critical' },
 ];
 
 export default function TicketList() {
@@ -45,7 +45,7 @@ export default function TicketList() {
     if (params.priority) query.priority = params.priority;
     getTickets(query)
       .then(({ data }) => setTickets(data))
-      .catch(() => setError('No se pudieron cargar los tickets.'))
+      .catch(() => setError('Tickets could not be loaded.'))
       .finally(() => setLoading(false));
   };
 
@@ -77,14 +77,14 @@ export default function TicketList() {
           </h2>
           <p className="mb-0" style={{ color: '#64748b', fontSize: 13, marginTop: 2 }}>
             {user?.role === 'client'
-              ? 'Tus solicitudes de soporte'
-              : 'Todas las solicitudes de soporte'}
+              ? 'Your support requests'
+              : 'All support requests'}
           </p>
         </div>
         {user?.role !== 'supervisor' && (
           <Link to="/tickets/new" className="btn btn-primary btn-sm">
             <i className="bi bi-plus me-1" />
-            {user?.role === 'client' ? 'Abrir Ticket' : 'Nuevo Ticket'}
+            {user?.role === 'client' ? 'Open Ticket' : 'New Ticket'}
           </Link>
         )}
       </div>
@@ -95,7 +95,7 @@ export default function TicketList() {
           <div className="row g-2 align-items-end">
             <div className="col-sm-auto">
               <label className="form-label mb-1" style={{ fontSize: 11 }}>
-                ESTADO
+                STATUS
               </label>
               <select
                 name="status"
@@ -113,7 +113,7 @@ export default function TicketList() {
             </div>
             <div className="col-sm-auto">
               <label className="form-label mb-1" style={{ fontSize: 11 }}>
-                PRIORIDAD
+                PRIORITY
               </label>
               <select
                 name="priority"
@@ -137,7 +137,7 @@ export default function TicketList() {
                   style={{ marginTop: 20 }}
                 >
                   <i className="bi bi-x me-1" />
-                  Limpiar
+                  Clear
                 </button>
               </div>
             )}
@@ -150,7 +150,7 @@ export default function TicketList() {
         {loading ? (
           <div className="page-loader" style={{ minHeight: 200 }}>
             <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Cargando...</span>
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         ) : error ? (
@@ -163,11 +163,11 @@ export default function TicketList() {
               <div className="empty-state-icon">
                 <i className="bi bi-inbox" />
               </div>
-              <div className="empty-state-title">Sin resultados</div>
+              <div className="empty-state-title">No results</div>
               <div className="empty-state-desc">
                 {hasFilters
-                  ? 'No hay tickets con estos filtros.'
-                  : 'No hay tickets registrados todavía.'}
+                  ? 'There are no tickets matching these filters.'
+                  : 'There are no tickets registered yet.'}
               </div>
             </div>
           </div>
@@ -177,16 +177,16 @@ export default function TicketList() {
               <thead>
                 <tr>
                   <th style={{ width: 60 }}>ID</th>
-                  <th>Título</th>
-                  <th style={{ width: 120 }}>Estado</th>
-                  <th style={{ width: 110 }}>Prioridad</th>
+                  <th>Title</th>
+                  <th style={{ width: 120 }}>Status</th>
+                  <th style={{ width: 110 }}>Priority</th>
                   {(user?.role === 'agent' || user?.role === 'admin' || user?.role === 'supervisor') && (
                     <>
-                      <th style={{ width: 140 }}>Solicitante</th>
-                      <th style={{ width: 140 }}>Asignado a</th>
+                      <th style={{ width: 140 }}>Requester</th>
+                      <th style={{ width: 140 }}>Assigned to</th>
                     </>
                   )}
-                  <th style={{ width: 110 }}>Creado</th>
+                  <th style={{ width: 110 }}>Created</th>
                 </tr>
               </thead>
               <tbody>
@@ -213,7 +213,7 @@ export default function TicketList() {
                         </td>
                         <td style={{ fontSize: 12, color: '#475569' }}>
                           {t.assigned_to?.username || (
-                            <span style={{ color: '#94a3b8' }}>Sin asignar</span>
+                            <span style={{ color: '#94a3b8' }}>Unassigned</span>
                           )}
                         </td>
                       </>

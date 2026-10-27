@@ -20,7 +20,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.username || !form.password) {
-      setError('Ingresa usuario y contraseña.');
+      setError('Enter username and password.');
       return;
     }
     setLoading(true);
@@ -37,7 +37,7 @@ export default function Login() {
       const msg =
         err.response?.data?.detail ||
         err.response?.data?.non_field_errors?.[0] ||
-        'Credenciales incorrectas. Intenta de nuevo.';
+        'Incorrect credentials. Please try again.';
       setError(msg);
     } finally {
       setLoading(false);
@@ -55,8 +55,8 @@ export default function Login() {
           <span className="auth-logo-text">HelpDesk</span>
         </div>
 
-        <h1 className="auth-title">Iniciar sesión</h1>
-        <p className="auth-subtitle">Accede a tu portal de soporte</p>
+        <h1 className="auth-title">Sign in</h1>
+        <p className="auth-subtitle">Access your support portal</p>
 
         {error && (
           <div className="alert alert-danger" role="alert">
@@ -68,14 +68,14 @@ export default function Login() {
         <form onSubmit={handleSubmit} noValidate>
           <div className="mb-3">
             <label htmlFor="username" className="form-label">
-              Usuario
+              Username
             </label>
             <input
               id="username"
               name="username"
               type="text"
               className="form-control"
-              placeholder="Nombre de usuario"
+              placeholder="Username"
               value={form.username}
               onChange={handleChange}
               autoComplete="username"
@@ -85,7 +85,7 @@ export default function Login() {
 
           <div className="mb-4">
             <label htmlFor="password" className="form-label">
-              Contraseña
+              Password
             </label>
             <input
               id="password"
@@ -111,10 +111,10 @@ export default function Login() {
                   role="status"
                   aria-hidden="true"
                 />
-                Iniciando sesión...
+                Signing in...
               </>
             ) : (
-              'Iniciar sesión'
+              'Sign in'
             )}
           </button>
         </form>
@@ -122,9 +122,9 @@ export default function Login() {
         <div className="section-divider" />
 
         <p className="text-center" style={{ fontSize: 13, color: '#64748b', marginBottom: 0 }}>
-          ¿No tienes cuenta?{' '}
+          Don’t have an account?{' '}
           <Link to="/register" style={{ fontWeight: 500 }}>
-            Regístrate
+            Sign up
           </Link>
         </p>
       </div>

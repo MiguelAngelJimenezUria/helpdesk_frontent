@@ -8,7 +8,7 @@ import PriorityBadge from '../components/PriorityBadge';
 
 function formatDateTime(dt) {
   if (!dt) return '—';
-  return new Date(dt).toLocaleString('es-ES', {
+  return new Date(dt).toLocaleString('en-US', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
@@ -18,17 +18,17 @@ function formatDateTime(dt) {
 }
 
 const STATUS_OPTIONS = [
-  { value: 'open', label: 'Abierto' },
-  { value: 'in_progress', label: 'En Progreso' },
-  { value: 'resolved', label: 'Resuelto' },
-  { value: 'closed', label: 'Cerrado' },
+  { value: 'open', label: 'Open' },
+  { value: 'in_progress', label: 'In Progress' },
+  { value: 'resolved', label: 'Resolved' },
+  { value: 'closed', label: 'Closed' },
 ];
 
 const PRIORITY_OPTIONS = [
-  { value: 'low', label: 'Baja' },
-  { value: 'medium', label: 'Media' },
-  { value: 'high', label: 'Alta' },
-  { value: 'critical', label: 'Crítica' },
+  { value: 'low', label: 'Low' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'high', label: 'High' },
+  { value: 'critical', label: 'Critical' },
 ];
 
 export default function TicketDetail() {
@@ -75,7 +75,7 @@ export default function TicketDetail() {
         });
         setAgents([...agentsRes.data, ...adminsRes.data]);
       })
-      .catch(() => setError('No se pudo cargar el ticket.'))
+      .catch(() => setError('Could not load the ticket.'))
       .finally(() => setLoading(false));
   }, [id, isStaff]);
 
@@ -100,7 +100,7 @@ export default function TicketDetail() {
       setTicket(data);
       setUpdateSuccess(true);
     } catch {
-      setUpdateError('Error al actualizar el ticket.');
+      setUpdateError('Error updating the ticket.');
     } finally {
       setUpdateLoading(false);
     }
@@ -119,7 +119,7 @@ export default function TicketDetail() {
       setCommentBody('');
       setIsInternal(false);
     } catch {
-      setCommentError('No se pudo agregar el comentario.');
+      setCommentError('Could not add the comment.');
     } finally {
       setCommentLoading(false);
     }
@@ -129,7 +129,7 @@ export default function TicketDetail() {
     return (
       <div className="page-loader" style={{ minHeight: 300 }}>
         <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Cargando...</span>
+          <span className="visually-hidden">Loading...</span>
         </div>
       </div>
     );
@@ -181,7 +181,7 @@ export default function TicketDetail() {
           {/* Comments */}
           <div className="card mb-3">
             <div className="card-header">
-              Comentarios
+              Comments
               <span
                 style={{
                   marginLeft: 8,
@@ -202,7 +202,7 @@ export default function TicketDetail() {
                   <div className="empty-state-icon" style={{ fontSize: 28 }}>
                     <i className="bi bi-chat" />
                   </div>
-                  <div className="empty-state-desc">Sin comentarios todavía.</div>
+                  <div className="empty-state-desc">No comments yet.</div>
                 </div>
               ) : (
                 <div style={{ padding: '0 4px' }}>
@@ -230,7 +230,7 @@ export default function TicketDetail() {
                           {c.author?.username}
                         </span>
                         {c.is_internal && (
-                          <span className="comment-internal-badge">Interna</span>
+                          <span className="comment-internal-badge">Internal</span>
                         )}
                         <span style={{ fontSize: 11, color: '#94a3b8', marginLeft: 'auto' }}>
                           {formatDateTime(c.created_at)}
@@ -261,7 +261,7 @@ export default function TicketDetail() {
                   )}
                   <textarea
                     className="form-control mb-2"
-                    placeholder="Escribe un comentario…"
+                    placeholder="Write a comment…"
                     rows={3}
                     value={commentBody}
                     onChange={(e) => setCommentBody(e.target.value)}
@@ -281,7 +281,7 @@ export default function TicketDetail() {
                           htmlFor="is_internal"
                           style={{ fontSize: 12.5 }}
                         >
-                          Nota interna (solo staff)
+                          Internal note (staff only)
                         </label>
                       </div>
                     )}
@@ -295,7 +295,7 @@ export default function TicketDetail() {
                       ) : (
                         <>
                           <i className="bi bi-send me-1" />
-                          Comentar
+                          Comment
                         </>
                       )}
                     </button>
@@ -304,7 +304,7 @@ export default function TicketDetail() {
                 ) : (
                   <p style={{ fontSize: 12, color: '#94a3b8', margin: 0, textAlign: 'center' }}>
                     <i className="bi bi-eye me-1" />
-                    Modo solo lectura &mdash; los supervisores no pueden agregar comentarios.
+                    Read-only mode &mdash; supervisors cannot add comments.
                   </p>
                 )}
               </div>
@@ -316,27 +316,27 @@ export default function TicketDetail() {
         <div className="col-lg-4">
           {/* Meta info */}
           <div className="card mb-3">
-            <div className="card-header">Detalles</div>
+            <div className="card-header">Details</div>
             <div className="card-body">
               <dl style={{ marginBottom: 0 }}>
-                <MetaRow label="Estado">
+                <MetaRow label="Status">
                   <StatusBadge status={ticket.status} />
                 </MetaRow>
-                <MetaRow label="Prioridad">
+                <MetaRow label="Priority">
                   <PriorityBadge priority={ticket.priority} />
                 </MetaRow>
-                <MetaRow label="Solicitante">
+                <MetaRow label="Requester">
                   {ticket.created_by?.username || '—'}
                 </MetaRow>
-                <MetaRow label="Asignado a">
+                <MetaRow label="Assigned to">
                   {ticket.assigned_to?.username || (
-                    <span style={{ color: '#94a3b8' }}>Sin asignar</span>
+                    <span style={{ color: '#94a3b8' }}>Unassigned</span>
                   )}
                 </MetaRow>
-                <MetaRow label="Creado">
+                <MetaRow label="Created">
                   {formatDateTime(ticket.created_at)}
                 </MetaRow>
-                <MetaRow label="Actualizado" last>
+                <MetaRow label="Updated" last>
                   {formatDateTime(ticket.updated_at)}
                 </MetaRow>
               </dl>
@@ -346,12 +346,12 @@ export default function TicketDetail() {
           {/* Update panel (agents & admins only) */}
           {canEdit && (
             <div className="card">
-              <div className="card-header">Actualizar Ticket</div>
+              <div className="card-header">Update Ticket</div>
               <div className="card-body">
                 {updateSuccess && (
                   <div className="alert alert-success py-2 mb-3" style={{ fontSize: 13 }}>
                     <i className="bi bi-check-circle me-1" />
-                    Ticket actualizado correctamente.
+                    Ticket updated successfully.
                   </div>
                 )}
                 {updateError && (
@@ -361,7 +361,7 @@ export default function TicketDetail() {
                 )}
                 <form onSubmit={handleUpdateSubmit}>
                   <div className="mb-3">
-                    <label className="form-label">Estado</label>
+                    <label className="form-label">Status</label>
                     <select
                       name="status"
                       className="form-select"
@@ -377,7 +377,7 @@ export default function TicketDetail() {
                   </div>
 
                   <div className="mb-3">
-                    <label className="form-label">Prioridad</label>
+                    <label className="form-label">Priority</label>
                     <select
                       name="priority"
                       className="form-select"
@@ -393,14 +393,14 @@ export default function TicketDetail() {
                   </div>
 
                   <div className="mb-4">
-                    <label className="form-label">Asignar a</label>
+                    <label className="form-label">Assign to</label>
                     <select
                       name="assigned_to"
                       className="form-select"
                       value={updateForm.assigned_to}
                       onChange={handleUpdateChange}
                     >
-                      <option value="">Sin asignar</option>
+                      <option value="">Unassigned</option>
                       {agents.map((a) => (
                         <option key={a.id} value={a.id}>
                           {a.first_name
@@ -420,7 +420,7 @@ export default function TicketDetail() {
                     {updateLoading ? (
                       <span className="spinner-border spinner-border-sm" role="status" />
                     ) : (
-                      'Guardar cambios'
+                      'Save changes'
                     )}
                   </button>
                 </form>

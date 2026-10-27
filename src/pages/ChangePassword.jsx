@@ -20,10 +20,10 @@ export default function ChangePassword() {
 
   const validate = () => {
     const errs = {};
-    if (!form.current_password) errs.current_password = 'Ingresa tu contraseña actual.';
-    if (!form.new_password) errs.new_password = 'Ingresa la nueva contraseña.';
+    if (!form.current_password) errs.current_password = 'Enter your current password.';
+    if (!form.new_password) errs.new_password = 'Enter your new password.';
     if (form.new_password !== form.new_password_confirm)
-      errs.new_password_confirm = 'Las contraseñas no coinciden.';
+      errs.new_password_confirm = 'Passwords do not match.';
     return errs;
   };
 
@@ -46,7 +46,7 @@ export default function ChangePassword() {
         errs[k] = Array.isArray(v) ? v[0] : v;
       });
       if (!Object.keys(errs).length)
-        errs.general = 'Error al cambiar la contraseña.';
+        errs.general = 'Error changing the password.';
       setErrors(errs);
     } finally {
       setLoading(false);
@@ -62,22 +62,22 @@ export default function ChangePassword() {
           style={{ border: '1px solid #e2e8f0', color: '#475569', padding: '5px 10px' }}
         >
           <i className="bi bi-arrow-left me-1" />
-          Perfil
+          Profile
         </Link>
         <h2 className="mb-0" style={{ fontSize: 20, fontWeight: 700 }}>
-          Cambiar Contraseña
+          Change Password
         </h2>
       </div>
 
       <div className="row justify-content-center">
         <div className="col-lg-5">
           <div className="card">
-            <div className="card-header">Nueva contraseña</div>
+            <div className="card-header">New password</div>
             <div className="card-body">
               {success && (
                 <div className="alert alert-success" style={{ fontSize: 13 }}>
                   <i className="bi bi-check-circle me-1" />
-                  Contraseña actualizada correctamente. Redirigiendo…
+                  Password updated successfully. Redirecting…
                 </div>
               )}
               {errors.general && (
@@ -89,7 +89,7 @@ export default function ChangePassword() {
               <form onSubmit={handleSubmit} noValidate>
                 <div className="mb-3">
                   <label htmlFor="current_password" className="form-label">
-                    Contraseña actual
+                    Current password
                   </label>
                   <input
                     id="current_password"
@@ -107,7 +107,7 @@ export default function ChangePassword() {
 
                 <div className="mb-3">
                   <label htmlFor="new_password" className="form-label">
-                    Nueva contraseña
+                    New password
                   </label>
                   <input
                     id="new_password"
@@ -125,7 +125,7 @@ export default function ChangePassword() {
 
                 <div className="mb-4">
                   <label htmlFor="new_password_confirm" className="form-label">
-                    Confirmar nueva contraseña
+                    Confirm new password
                   </label>
                   <input
                     id="new_password_confirm"
@@ -152,10 +152,10 @@ export default function ChangePassword() {
                     ) : (
                       <i className="bi bi-shield-lock me-2" />
                     )}
-                    Cambiar contraseña
+                    Change password
                   </button>
                   <Link to="/profile" className="btn btn-outline-secondary">
-                    Cancelar
+                    Cancel
                   </Link>
                 </div>
               </form>

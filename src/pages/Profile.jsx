@@ -25,7 +25,7 @@ export default function Profile() {
         setForm(init);
         setOriginal(data);
       })
-      .catch(() => setError('No se pudo cargar el perfil.'))
+      .catch(() => setError('Could not load profile.'))
       .finally(() => setLoading(false));
   }, []);
 
@@ -38,8 +38,8 @@ export default function Profile() {
 
   const validate = () => {
     const errs = {};
-    errs.first_name = validateName(form.first_name, 'El nombre');
-    errs.last_name = validateName(form.last_name, 'El apellido');
+    errs.first_name = validateName(form.first_name, 'First name');
+    errs.last_name = validateName(form.last_name, 'Last name');
     if (form.email) errs.email = validateEmail(form.email);
     Object.keys(errs).forEach((k) => { if (!errs[k]) delete errs[k]; });
     return errs;
@@ -62,7 +62,7 @@ export default function Profile() {
     } catch (err) {
       const data = err.response?.data || {};
       const first = Object.values(data)[0];
-      setError(Array.isArray(first) ? first[0] : first || 'Error al guardar.');
+      setError(Array.isArray(first) ? first[0] : first || 'Error saving.');
     } finally {
       setSaving(false);
     }
@@ -80,10 +80,10 @@ export default function Profile() {
     <>
       <div className="mb-4">
         <h2 className="mb-0" style={{ fontSize: 20, fontWeight: 700 }}>
-          Mi Perfil
+          My Profile
         </h2>
         <p className="mb-0" style={{ color: '#64748b', fontSize: 13, marginTop: 2 }}>
-          Gestiona tu información personal
+          Manage your personal information
         </p>
       </div>
 
@@ -91,12 +91,12 @@ export default function Profile() {
         {/* Profile form */}
         <div className="col-lg-6">
           <div className="card">
-            <div className="card-header">Información personal</div>
+            <div className="card-header">Personal information</div>
             <div className="card-body">
               {success && (
                 <div className="alert alert-success py-2 mb-3" style={{ fontSize: 13 }}>
                   <i className="bi bi-check-circle me-1" />
-                  Perfil actualizado correctamente.
+                  Profile updated successfully.
                 </div>
               )}
               {error && (
@@ -107,7 +107,7 @@ export default function Profile() {
 
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                  <label className="form-label">Usuario</label>
+                  <label className="form-label">Username</label>
                   <input
                     type="text"
                     className="form-control"
@@ -119,7 +119,7 @@ export default function Profile() {
 
                 <div className="row g-3 mb-3">
                   <div className="col-6">
-                    <label htmlFor="first_name" className="form-label">Nombre</label>
+                    <label htmlFor="first_name" className="form-label">First name</label>
                     <input
                       id="first_name"
                       name="first_name"
@@ -133,7 +133,7 @@ export default function Profile() {
                     )}
                   </div>
                   <div className="col-6">
-                    <label htmlFor="last_name" className="form-label">Apellido</label>
+                    <label htmlFor="last_name" className="form-label">Last name</label>
                     <input
                       id="last_name"
                       name="last_name"
@@ -149,7 +149,7 @@ export default function Profile() {
                 </div>
 
                 <div className="mb-4">
-                  <label htmlFor="email" className="form-label">Correo electrónico</label>
+                  <label htmlFor="email" className="form-label">Email</label>
                   <input
                     id="email"
                     name="email"
@@ -173,7 +173,7 @@ export default function Profile() {
                   ) : (
                     <i className="bi bi-save me-2" />
                   )}
-                  Guardar cambios
+                  Save changes
                 </button>
               </form>
             </div>
@@ -183,19 +183,19 @@ export default function Profile() {
         {/* Account info */}
         <div className="col-lg-6">
           <div className="card mb-3">
-            <div className="card-header">Información de cuenta</div>
+            <div className="card-header">Account information</div>
             <div className="card-body">
               <dl style={{ marginBottom: 0 }}>
-                <InfoRow label="Rol">
+                <InfoRow label="Role">
                   {original?.role === 'admin'
-                    ? 'Administrador'
+                    ? 'Administrator'
                     : original?.role === 'agent'
-                    ? 'Agente'
-                    : 'Cliente'}
+                    ? 'Agent'
+                    : 'Client'}
                 </InfoRow>
-                <InfoRow label="Miembro desde" last>
+                <InfoRow label="Member since" last>
                   {original?.date_joined
-                    ? new Date(original.date_joined).toLocaleDateString('es-ES', {
+                    ? new Date(original.date_joined).toLocaleDateString('en-US', {
                         day: '2-digit',
                         month: 'long',
                         year: 'numeric',
@@ -207,14 +207,14 @@ export default function Profile() {
           </div>
 
           <div className="card">
-            <div className="card-header">Seguridad</div>
+            <div className="card-header">Security</div>
             <div className="card-body">
               <p style={{ fontSize: 13, color: '#64748b', marginBottom: 12 }}>
-                Cambia tu contraseña regularmente para mantener tu cuenta segura.
+                Change your password regularly to keep your account secure.
               </p>
               <Link to="/profile/change-password" className="btn btn-outline-secondary btn-sm">
                 <i className="bi bi-key me-2" />
-                Cambiar contraseña
+                Change password
               </Link>
             </div>
           </div>

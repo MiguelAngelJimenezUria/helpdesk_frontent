@@ -26,7 +26,7 @@ export default function AdminUserDetail() {
   if (me && me.role !== 'admin' && me.role !== 'supervisor') {
     return (
       <div className="alert alert-danger">
-        No tienes permisos para acceder a esta sección.
+        YOU ARE NOT AUTHORIZED TO VIEW THIS PAGE
       </div>
     );
   }
@@ -130,7 +130,7 @@ export default function AdminUserDetail() {
                   fontWeight: 600,
                 }}
               >
-                INACTIVO
+                INACTIVE
               </span>
             )}
           </div>
@@ -147,7 +147,7 @@ export default function AdminUserDetail() {
               {success && (
                 <div className="alert alert-success py-2 mb-3" style={{ fontSize: 13 }}>
                   <i className="bi bi-check-circle me-1" />
-                  Usuario actualizado correctamente.
+                  User updated successfully
                 </div>
               )}
               {error && (
@@ -159,7 +159,7 @@ export default function AdminUserDetail() {
               <form onSubmit={handleSubmit}>
                 <div className="row g-3 mb-3">
                   <div className="col-6">
-                    <label htmlFor="first_name" className="form-label">Nombre</label>
+                    <label htmlFor="first_name" className="form-label">Name</label>
                     <input
                       id="first_name"
                       name="first_name"
@@ -174,7 +174,7 @@ export default function AdminUserDetail() {
                     )}
                   </div>
                   <div className="col-6">
-                    <label htmlFor="last_name" className="form-label">Apellido</label>
+                    <label htmlFor="last_name" className="form-label">Last name</label>
                     <input
                       id="last_name"
                       name="last_name"
@@ -191,7 +191,7 @@ export default function AdminUserDetail() {
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Correo electrónico</label>
+                  <label htmlFor="email" className="form-label">Email</label>
                   <input
                     id="email"
                     name="email"
@@ -207,7 +207,7 @@ export default function AdminUserDetail() {
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="role" className="form-label">Rol</label>
+                  <label htmlFor="role" className="form-label">Role</label>
                   <select
                     id="role"
                     name="role"
@@ -216,8 +216,8 @@ export default function AdminUserDetail() {
                     onChange={handleChange}
                     disabled={me?.role === 'supervisor'}
                   >
-                    <option value="client">Cliente</option>
-                    <option value="agent">Agente</option>
+                    <option value="client">Client</option>
+                    <option value="agent">Agent</option>
                     <option value="supervisor">Supervisor</option>
                     <option value="admin">Admin</option>
                   </select>
@@ -239,7 +239,7 @@ export default function AdminUserDetail() {
                     </label>
                   </div>
                   <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 4, paddingLeft: 24 }}>
-                    Desactiva la cuenta para bloquear el acceso sin eliminarla.
+                    Deactivate the account to block the user from logging in. This does not delete the account or its data.
                   </div>
                 </div>
 
@@ -254,7 +254,7 @@ export default function AdminUserDetail() {
                   ) : (
                     <i className="bi bi-save me-2" />
                   )}
-                  Guardar cambios
+                  Save changes
                 </button>
                 )}
               </form>
@@ -265,7 +265,7 @@ export default function AdminUserDetail() {
         {/* Read-only info */}
         <div className="col-lg-6">
           <div className="card">
-            <div className="card-header">Información de cuenta</div>
+            <div className="card-header">Account details</div>
             <div className="card-body">
               <dl style={{ marginBottom: 0 }}>
                 {[
@@ -274,9 +274,9 @@ export default function AdminUserDetail() {
                   {
                     label: 'Estado',
                     value: userData?.is_active ? (
-                      <span style={{ color: '#16a34a', fontWeight: 500 }}>Activo</span>
+                      <span style={{ color: '#16a34a', fontWeight: 500 }}>Active</span>
                     ) : (
-                      <span style={{ color: '#94a3b8' }}>Inactivo</span>
+                      <span style={{ color: '#94a3b8' }}>Inactive</span>
                     ),
                   },
                 ].map(({ label, value }, i, arr) => (
