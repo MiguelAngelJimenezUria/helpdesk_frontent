@@ -17,16 +17,16 @@ function getDisplayName(user) {
 }
 
 const NAV_ITEMS_COMMON = [
-  { to: '/dashboard', icon: 'bi-grid-1x2', label: 'Inicio' },
+  { to: '/dashboard', icon: 'bi-grid-1x2', label: 'Dashboard' },
   { to: '/tickets', icon: 'bi-ticket-detailed', label: 'Tickets' },
 ];
 
 const NAV_ITEMS_AGENT = [
-  { to: '/tickets/new', icon: 'bi-plus-circle', label: 'Nuevo Ticket' },
+  { to: '/tickets/new', icon: 'bi-plus-circle', label: 'New Ticket' },
 ];
 
 const NAV_ITEMS_CLIENT = [
-  { to: '/tickets/new', icon: 'bi-plus-circle', label: 'Abrir Ticket' },
+  { to: '/tickets/new', icon: 'bi-plus-circle', label: 'Open Ticket' },
 ];
 
 const NAV_ITEMS_ADMIN = [
@@ -69,13 +69,13 @@ export default function Layout() {
           </div>
           <div>
             <div className="sidebar-brand-name">HelpDesk</div>
-            <div className="sidebar-brand-sub">Portal de Soporte</div>
+            <div className="sidebar-brand-sub">Support Portal</div>
           </div>
         </div>
 
         {/* Navigation */}
         <nav className="sidebar-nav">
-          <div className="sidebar-section-label">Principal</div>
+          <div className="sidebar-section-label">Main</div>
 
           {NAV_ITEMS_COMMON.map((item) => (
             <NavLink
@@ -124,7 +124,7 @@ export default function Layout() {
           {(isAdmin || isSupervisor) && (
             <>
               <div className="sidebar-section-label" style={{ marginTop: 8 }}>
-                Administración
+                Administration
               </div>
               {NAV_ITEMS_ADMIN.map((item) => (
                 <NavLink
@@ -143,7 +143,7 @@ export default function Layout() {
           )}
 
           <div className="sidebar-section-label" style={{ marginTop: 8 }}>
-            Cuenta
+            Account
           </div>
           <NavLink
             to="/profile"
@@ -153,7 +153,7 @@ export default function Layout() {
             onClick={closeSidebar}
           >
             <i className="bi bi-person nav-icon" />
-            Mi Perfil
+            My Profile
           </NavLink>
         </nav>
 
@@ -164,15 +164,15 @@ export default function Layout() {
             <div className="sidebar-user-info">
               <div className="sidebar-user-name">{getDisplayName(user)}</div>
               <div className="sidebar-user-role">
-                {user?.role === 'admin'      ? 'Administrador' :
-                 user?.role === 'agent'      ? 'Agente' :
-                 user?.role === 'supervisor' ? 'Supervisor' : 'Cliente'}
+                {user?.role === 'admin'      ? 'Administrator' :
+                 user?.role === 'agent'      ? 'Agent' :
+                 user?.role === 'supervisor' ? 'Supervisor' : 'Client'}
               </div>
             </div>
             <button
               className="sidebar-logout-btn"
               onClick={handleLogout}
-              title="Cerrar sesión"
+              title="Log out"
             >
               <i className="bi bi-box-arrow-right" />
             </button>

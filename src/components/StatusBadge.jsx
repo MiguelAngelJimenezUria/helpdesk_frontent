@@ -1,8 +1,8 @@
 const STATUS_MAP = {
-  open:        { label: 'Abierto',     cls: 'badge-status-open' },
-  in_progress: { label: 'En Progreso', cls: 'badge-status-in_progress' },
-  resolved:    { label: 'Resuelto',    cls: 'badge-status-resolved' },
-  closed:      { label: 'Cerrado',     cls: 'badge-status-closed' },
+  open:        { label: 'Open',        cls: 'badge-status-open' },
+  in_progress: { label: 'In Progress', cls: 'badge-status-in_progress' },
+  resolved:    { label: 'Resolved',    cls: 'badge-status-resolved' },
+  closed:      { label: 'Closed',      cls: 'badge-status-closed' },
 };
 
 export default function StatusBadge({ status }) {

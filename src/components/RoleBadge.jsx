@@ -1,7 +1,7 @@
 const ROLE_MAP = {
   admin:      { label: 'Admin',       cls: 'badge-role-admin' },
-  agent:      { label: 'Agente',      cls: 'badge-role-agent' },
-  client:     { label: 'Cliente',     cls: 'badge-role-client' },
+  agent:      { label: 'Agent',      cls: 'badge-role-agent' },
+  client:     { label: 'Client',     cls: 'badge-role-client' },
   supervisor: { label: 'Supervisor',  cls: 'badge-role-supervisor' },
 };
 
